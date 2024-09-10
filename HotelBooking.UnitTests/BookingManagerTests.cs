@@ -11,7 +11,8 @@ namespace HotelBooking.UnitTests
     public class BookingManagerTests
     {
         private IBookingManager bookingManager;
-        IRepository<Booking> bookingRepository;
+        private IRepository<Booking> bookingRepository;
+        private IRepository<Room> roomRepository;
 
         private readonly Room room;
         private readonly Customer customer;
@@ -22,7 +23,7 @@ namespace HotelBooking.UnitTests
             DateTime start = DateTime.Today.AddDays(10);
             DateTime end = DateTime.Today.AddDays(20);
             bookingRepository = new FakeBookingRepository(start, end);
-            IRepository<Room> roomRepository = new FakeRoomRepository();
+            roomRepository = new FakeRoomRepository();
             bookingManager = new BookingManager(bookingRepository, roomRepository);
 
             room = new Room
@@ -160,43 +161,49 @@ namespace HotelBooking.UnitTests
             Assert.Equal(-1, result);
         }
         
-        
-        [Fact]  
-        public void GetFullyOccupiedDates_RangeWithFullyOccupiedRooms_ReturnsFullyOccupiedDates()  
+        [Theory]
+        [InlineData(10, 20, 11)]
+        [InlineData(16, 66, 5)]
+        [InlineData(20, 26, 1)]
+        public void GetFullyOccupiedDates_RangeWithFullyOccupiedRooms_ReturnsDates(int startDate, int endDate, int expectedCount)  
         {  
             // Arrange  
-            var startDate = new DateTime(2023, 10, 1);  
-            var endDate = new DateTime(2023, 10, 5);  
+            var start = DateTime.Today.AddDays(startDate);
+            var end = DateTime.Today.AddDays(endDate);  
   
-            // var rooms = new List<Room>   
-            // {   
-            //     new Room { Id = 1 },   
-            //     new Room { Id = 2 }   
-            // };  
+            // Act  
+            var result = bookingManager.GetFullyOccupiedDates(start, end);  
   
-            // var bookings = new List<Booking>  
-            // {  
-            //     new Booking { RoomId = 1, StartDate = new DateTime(2023, 10, 1), EndDate = new DateTime(2023, 10, 3), IsActive = true },  
-            //     new Booking { RoomId = 2, StartDate = new DateTime(2023, 10, 1), EndDate = new DateTime(2023, 10, 3), IsActive = true },  
-            //     new Booking { RoomId = 1, StartDate = new DateTime(2023, 10, 4), EndDate = new DateTime(2023, 10, 5), IsActive = true },  
-            //     new Booking { RoomId = 2, StartDate = new DateTime(2023, 10, 4), EndDate = new DateTime(2023, 10, 5), IsActive = true }  
-            // };  
+            // Assert  
+            Assert.Equal(expectedCount, result.Count);  
+        }  
+        
+        [Fact]  
+        public void GetFullyOccupiedDates_ReturnsEmpty()  
+        {  
+            // Arrange  
+            var startDate = DateTime.Today.AddDays(40);
+            var endDate = DateTime.Today.AddDays(80);  
   
             // Act  
             var result = bookingManager.GetFullyOccupiedDates(startDate, endDate);  
   
             // Assert  
-            var expectedDates = new List<DateTime>   
-            {   
-                new DateTime(2023, 10, 1),  
-                new DateTime(2023, 10, 2),  
-                new DateTime(2023, 10, 3),  
-                new DateTime(2023, 10, 4),  
-                new DateTime(2023, 10, 5)  
-            };  
+            Assert.Empty(result);  
+        } 
+        
+        [Fact]
+        public void GetFullyOccupiedDates_InvalidDateRange_ThrowsArgumentException()  
+        {  
+            // Arrange  
+            var startDate = DateTime.Today.AddDays(340);
+            var endDate = DateTime.Today.AddDays(80);  
   
-            Assert.Equal(expectedDates, result);  
-        }  
+            // Act  
+            Action act = () => bookingManager.GetFullyOccupiedDates(startDate, endDate);  
+  
+            // Assert  
+            Assert.Throws<ArgumentException>(act);  
+        } 
     }
-    
 }

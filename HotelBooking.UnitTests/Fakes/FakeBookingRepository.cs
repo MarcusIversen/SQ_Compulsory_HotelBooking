@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HotelBooking.Core;
 
 namespace HotelBooking.UnitTests.Fakes
@@ -56,6 +57,21 @@ namespace HotelBooking.UnitTests.Fakes
         public void Remove(int id)
         {
             removeWasCalled = true;
+        }
+        
+        public List<DateTime> GetFullyOccupiedDates(DateTime startDate, DateTime endDate, int numberOfRooms)
+        {
+            List<DateTime> fullyOccupiedDates = new List<DateTime>();
+            for (DateTime d = startDate; d <= endDate; d = d.AddDays(1))
+            {
+                var noOfBookings = from b in GetAll()
+                    where b.IsActive && d >= b.StartDate && d <= b.EndDate
+                    select b;
+                if (noOfBookings.Count() >= numberOfRooms)
+                    fullyOccupiedDates.Add(d);
+            }
+
+            return fullyOccupiedDates;
         }
     }
 }

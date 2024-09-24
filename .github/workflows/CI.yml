@@ -40,5 +40,5 @@ jobs:
 
       - name: Run Postman Collection
         run: |
-          newman run ./path_to_postman/postman_collection.json \  # Update with actual path if needed
+          newman run ./Postman/HotelBooking.postman_collection.json \
             --env-var "baseUrl=https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io"

@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "2e2b61e9-e27f-477b-860b-f842350fbcb0",
-		"name": "HotelBooking_https",
+		"_postman_id": "64e71d1f-30ce-4d33-9708-2b08798ebb28",
+		"name": "Mock Hotel booking",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2647456"
+		"_exporter_id": "37819320"
 	},
 	"item": [
 		{
-			"name": "rooms - Room 1",
+			"name": "Create room",
 			"event": [
 				{
 					"listen": "test",
@@ -17,7 +17,18 @@
 							"    pm.response.to.have.status(201);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -32,15 +43,22 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"description\": \"Room 1\"\n}"
+					"raw": "{\n    \"description\": \"Joe\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
-					"raw": "https://localhost:5001/rooms",
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/rooms",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
 					],
-					"port": "5001",
 					"path": [
 						"rooms"
 					]
@@ -49,71 +67,22 @@
 			"response": []
 		},
 		{
-			"name": "rooms - Room 2",
+			"name": "Get rooms",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"description\": \"Room 2\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:5001/rooms",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "5001",
-					"path": [
-						"rooms"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "rooms",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"",
-							"",
-							"",
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
 							"pm.test(\"Response is json\", function () {",
 							"    pm.response.to.be.json;",
-							"});",
-							"",
-							"//pm.test(\"Response length is correct\", function () {",
-							"//    var jsonData = pm.response.json();",
-							"//    pm.expect(jsonData.length).to.eql(2);",
-							"//});"
+							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -121,12 +90,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:5001/rooms",
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/rooms",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
 					],
-					"port": "5001",
 					"path": [
 						"rooms"
 					]
@@ -135,18 +106,23 @@
 			"response": []
 		},
 		{
-			"name": "rooms/0",
+			"name": "Delete rooms 0 invalid",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Response is json\", function () {",
+							"pm.test(\"Response is badRequest\", function () {",
 							"    pm.response.to.be.badRequest;",
+							"});",
+							"",
+							"pm.test(\"Response status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
 							"});",
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -154,12 +130,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:5001/rooms/0",
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/rooms/0",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
 					],
-					"port": "5001",
 					"path": [
 						"rooms",
 						"0"
@@ -169,7 +147,57 @@
 			"response": []
 		},
 		{
-			"name": "rooms/2",
+			"name": "Delete rooms 1 valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is json\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response return no content\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/rooms/1",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"rooms",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get rooms 2 valid",
 			"event": [
 				{
 					"listen": "test",
@@ -186,9 +214,15 @@
 							"pm.test(\"Response has correct room id\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.id).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"Response has the correct room description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eql(\"B\");",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				},
 				{
@@ -197,7 +231,8 @@
 						"exec": [
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -205,12 +240,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:5001/rooms/2",
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/rooms/2",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
 					],
-					"port": "5001",
 					"path": [
 						"rooms",
 						"2"
@@ -220,15 +257,26 @@
 			"response": []
 		},
 		{
-			"name": "Bookings",
+			"name": "Get rooms 0 invalid",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Response is json\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Response returns notfound\", function () {",
+							"    pm.response.to.be.notFound;",
+							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				},
 				{
@@ -237,7 +285,67 @@
 						"exec": [
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/rooms/0",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"rooms",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Bookings valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code should be 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response should be created\", function () {\r",
+							"    pm.response.to.be.success\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let startDate = new Date()\r",
+							"startDate.setDate(startDate.getDate()+20);\r",
+							"startDate = startDate.toISOString();\r",
+							"\r",
+							"let endDate = new Date()\r",
+							"endDate.setDate(endDate.getDate()+40);\r",
+							"endDate = endDate.toISOString();\r",
+							"\r",
+							"pm.environment.set('startDate', startDate);\r",
+							"pm.environment.set('endDate', endDate);"
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -249,7 +357,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"startDate\": \"2024-03-06\",\n  \"endDate\": \"2024-03-06\",\n  \"customerId\": \"1\"\n}\n",
+					"raw": "{\n  \"startDate\": \"{{startDate}}\",\n  \"endDate\": \"{{endDate}}\",\n  \"isActive\": true,\n  \"customerId\": 1,\n  \"roomId\": 1\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -257,14 +365,329 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:5001/Bookings",
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
 					],
-					"port": "5001",
 					"path": [
 						"Bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get bookings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is json\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get bookings 1 valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is json\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has correct room id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings/1",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update booking 1 valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response return no content\", function () {\r",
+							"    pm.expect(pm.response.text()).to.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"startDate\": \"2024-09-21T10:49:35.216Z\",\r\n  \"endDate\": \"2024-09-30T10:49:35.216Z\",\r\n  \"isActive\": false,\r\n  \"customerId\": 1,\r\n  \"roomId\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings/1",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update booking 0 invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response return badRequest\", function () {\r",
+							"    pm.response.to.be.badRequest;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"startDate\": \"2024-09-21T10:49:35.216Z\",\r\n  \"endDate\": \"2024-09-30T10:49:35.216Z\",\r\n  \"isActive\": false,\r\n  \"customerId\": 1,\r\n  \"roomId\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings/0",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Bookings",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete booking 1 valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response return no content\", function () {\r",
+							"    pm.expect(pm.response.text()).to.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings/1",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete booking 0 invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response return json\", function () {\r",
+							"    pm.expect(pm.response.json());\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Bookings/0",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Bookings",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get customers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is json\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://8031ff41-ac5a-4d5c-b4e0-06ac17e2243d.mock.pstmn.io/Customers",
+					"protocol": "https",
+					"host": [
+						"8031ff41-ac5a-4d5c-b4e0-06ac17e2243d",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Customers"
 					]
 				}
 			},

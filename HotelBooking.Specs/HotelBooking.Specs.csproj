@@ -26,4 +26,13 @@
       <ProjectReference Include="..\HotelBooking.Core\HotelBooking.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Features\CreateBookingFeature\CreateBooking.feature.cs">
+        <DependentUpon>CreateBooking.feature</DependentUpon>
+        <AutoGen>true</AutoGen>
+        <DesignTime>true</DesignTime>
+        <Visible>true</Visible>
+      </Compile>
+    </ItemGroup>
+
 </Project>

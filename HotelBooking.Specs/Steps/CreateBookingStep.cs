@@ -10,47 +10,32 @@ public class CreateBookingStep
     private IBookingManager bookingManager;
     private Mock<IRepository<Booking>> mockBookingRepository;
     private Mock<IRepository<Room>> mockRoomRepository;
-
-    private List<Room> rooms;
-    private Booking booking;
     private bool bookingResult;
+    private string errorMessage;
+
 
     public CreateBookingStep()
     {
         mockBookingRepository = new();
         mockRoomRepository = new();
-        bookingManager = new BookingManager(mockBookingRepository.Object, mockRoomRepository.Object);
-
-        // Create a list of rooms
-        rooms = new List<Room>
-        {
-            new Room { Id = 1, Description = "Deluxe Room" },
-            new Room { Id = 2, Description = "Suite Room" },
-            new Room { Id = 3, Description = "Standard Room" }
-        };
-
-        // Setup mock room repository to return the list of rooms
-        mockRoomRepository.Setup(repo => repo.GetAll()).Returns(rooms);
     }
 
 
-    [Given(@"a hotel room is available for the period from ""(.*)"" to ""(.*)""")]
+    [Given(@"the fully occupied period from day ""(.*)"" to day ""(.*)""")]
     public void GivenAHotelRoomIsAvailableForThePeriodFromTo(string roomAvailableStartDate, string roomAvailableEndDate)
     {
         // Arrange the booking with available room period
         var availableStartDate = DateTime.Parse(roomAvailableStartDate);
         var availableEndDate = DateTime.Parse(roomAvailableEndDate);
 
-        booking = new Booking
-        {
-            StartDate = availableStartDate,
-            EndDate = availableEndDate,
-            CustomerId = 20,
-            IsActive = true,
-            RoomId = rooms[0].Id, // The first room in the list is assigned
-            Room = rooms[0],
-            Customer = new Customer { Id = 20, Name = "John Doe", Email = "johndoe@email.com" }
-        };
+        var rooms = new List<Room>() { new Room { Id = 1, Description = "Hallo world" } };
+
+        var bookings = new List<Booking>() { new Booking { Id = 1, StartDate = availableStartDate, EndDate = availableEndDate, IsActive = true, RoomId = 1 } };
+        
+        mockRoomRepository.Setup(x => x.GetAll()).Returns(rooms);
+        mockBookingRepository.Setup(x => x.GetAll()).Returns(bookings);
+        
+        bookingManager = new BookingManager(mockBookingRepository.Object, mockRoomRepository.Object);
     }
 
     [When(@"a user attempts to book the room for the period from ""(.*)"" to ""(.*)""")]
@@ -59,20 +44,34 @@ public class CreateBookingStep
         // Act: try to create a booking for the specified period
         var bookingAttempt = new Booking
         {
-            RoomId = booking.Room.Id,
+            RoomId = 2,
             StartDate = DateTime.Parse(bookingStartDate),
             EndDate = DateTime.Parse(bookingEndDate),
-            CustomerId = booking.CustomerId
         };
 
-        bookingResult = bookingManager.CreateBooking(bookingAttempt);
+        try
+        {
+            bookingResult = bookingManager.CreateBooking(bookingAttempt);
+            errorMessage = string.Empty; 
+        }
+        catch (Exception ex)
+        {
+            bookingResult = false;
+            errorMessage = ex.Message;
+        }
     }
 
-    [Then(@"the booking status ""(.*)"" should be ""(.*)""")]
-    public void ThenTheBookingStatusShouldBe(string bookingStatus, string expectedStatus)
+    [Then(@"the booking status should be ""(.*)""")]
+    public void ThenTheBookingStatusShouldBe(string expectedStatus)
     {
-        // Assert: check if the booking status matches the expected result
         var expectedResult = bool.Parse(expectedStatus);
         Assert.Equal(expectedResult, bookingResult);
+    }
+
+    [Then(@"error message should be ""(.*)""")]
+    public void ThenAnErrorMessageAppears(string expectedErrorMessage)
+    {
+        Assert.False(bookingResult, "The start date cannot be in the past or later than the end date.");
+        Assert.Equal(expectedErrorMessage, errorMessage);
     }
 }

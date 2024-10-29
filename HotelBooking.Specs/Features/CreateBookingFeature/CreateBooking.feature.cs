@@ -39,7 +39,7 @@ namespace HotelBooking.Specs.Features.CreateBookingFeature
         public static async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = global::Reqnroll.TestRunnerManager.GetTestRunnerForAssembly();
-            global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/CreateBookingFeature", "Create Booking", "To ensure guests can book available rooms for specific dates", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+            global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/CreateBookingFeature", "Create Booking", "As a user I want to create a booking", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
@@ -85,29 +85,20 @@ namespace HotelBooking.Specs.Features.CreateBookingFeature
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableTheoryAttribute(DisplayName="A hotel room can be booked for a period (start date – end date) in the future")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Create booking within available dates")]
         [Xunit.TraitAttribute("FeatureTitle", "Create Booking")]
-        [Xunit.TraitAttribute("Description", "A hotel room can be booked for a period (start date – end date) in the future")]
-        [Xunit.TraitAttribute("Category", "mytag")]
-        [Xunit.InlineDataAttribute("2024-12-01", "2024-12-14", "2024-12-10", "2024-12-14", "true", new string[0])]
-        [Xunit.InlineDataAttribute("2024-12-01", "2024-12-07", "2024-12-03", "2024-12-06", "true", new string[0])]
-        [Xunit.InlineDataAttribute("2025-12-01", "2025-12-07", "2025-12-03", "2025-12-06", "true", new string[0])]
-        public async System.Threading.Tasks.Task AHotelRoomCanBeBookedForAPeriodStartDateEndDateInTheFuture(string room_Available_Start_Date, string room_Available_End_Date, string booking_Start_Date, string booking_End_Date, string booking_Created, string[] exampleTags)
+        [Xunit.TraitAttribute("Description", "Create booking within available dates")]
+        [Xunit.InlineDataAttribute("2024-12-01", "2024-12-14", "2025-12-10", "2025-12-14", "true", new string[0])]
+        public async System.Threading.Tasks.Task CreateBookingWithinAvailableDates(string occupied_Start_Date, string occupied_End_Date, string booking_Start_Date, string booking_End_Date, string booking_Created, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "mytag"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("room_available_start_date", room_Available_Start_Date);
-            argumentsOfScenario.Add("room_available_end_date", room_Available_End_Date);
+            argumentsOfScenario.Add("occupied_start_date", occupied_Start_Date);
+            argumentsOfScenario.Add("occupied_end_date", occupied_End_Date);
             argumentsOfScenario.Add("booking_start_date", booking_Start_Date);
             argumentsOfScenario.Add("booking_end_date", booking_End_Date);
             argumentsOfScenario.Add("booking_created", booking_Created);
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A hotel room can be booked for a period (start date – end date) in the future", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create booking within available dates", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 5
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -119,13 +110,168 @@ namespace HotelBooking.Specs.Features.CreateBookingFeature
             {
                 await this.ScenarioStartAsync();
 #line 6
-        await testRunner.GivenAsync(string.Format("a hotel room is available for the period from \"{0}\" to \"{1}\"", room_Available_Start_Date, room_Available_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync(string.Format("the fully occupied period from day \"{0}\" to day \"{1}\"", occupied_Start_Date, occupied_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 7
         await testRunner.WhenAsync(string.Format("a user attempts to book the room for the period from \"{0}\" to \"{1}\"", booking_Start_Date, booking_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 8
-        await testRunner.ThenAsync(string.Format("the booking status \"BookingCreated\" should be \"{0}\"", booking_Created), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+        await testRunner.ThenAsync(string.Format("the booking status should be \"{0}\"", booking_Created), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Create booking on occupied date")]
+        [Xunit.TraitAttribute("FeatureTitle", "Create Booking")]
+        [Xunit.TraitAttribute("Description", "Create booking on occupied date")]
+        [Xunit.InlineDataAttribute("2024-12-10", "2024-12-14", "2024-12-10", "2024-12-14", "false", new string[0])]
+        public async System.Threading.Tasks.Task CreateBookingOnOccupiedDate(string occupied_Start_Date, string occupied_End_Date, string booking_Start_Date, string booking_End_Date, string booking_Created, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("occupied_start_date", occupied_Start_Date);
+            argumentsOfScenario.Add("occupied_end_date", occupied_End_Date);
+            argumentsOfScenario.Add("booking_start_date", booking_Start_Date);
+            argumentsOfScenario.Add("booking_end_date", booking_End_Date);
+            argumentsOfScenario.Add("booking_created", booking_Created);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create booking on occupied date", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 15
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 16
+        await testRunner.GivenAsync(string.Format("the fully occupied period from day \"{0}\" to day \"{1}\"", occupied_Start_Date, occupied_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 17
+        await testRunner.WhenAsync(string.Format("a user attempts to book the room for the period from \"{0}\" to \"{1}\"", booking_Start_Date, booking_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 18
+        await testRunner.ThenAsync(string.Format("the booking status should be \"{0}\"", booking_Created), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Create booking with start date before occupied start date and end date in occupie" +
+            "d period")]
+        [Xunit.TraitAttribute("FeatureTitle", "Create Booking")]
+        [Xunit.TraitAttribute("Description", "Create booking with start date before occupied start date and end date in occupie" +
+            "d period")]
+        [Xunit.InlineDataAttribute("2024-12-10", "2024-12-14", "2024-12-8", "2024-12-13", "false", new string[0])]
+        public async System.Threading.Tasks.Task CreateBookingWithStartDateBeforeOccupiedStartDateAndEndDateInOccupiedPeriod(string occupied_Start_Date, string occupied_End_Date, string booking_Start_Date, string booking_End_Date, string booking_Created, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("occupied_start_date", occupied_Start_Date);
+            argumentsOfScenario.Add("occupied_end_date", occupied_End_Date);
+            argumentsOfScenario.Add("booking_start_date", booking_Start_Date);
+            argumentsOfScenario.Add("booking_end_date", booking_End_Date);
+            argumentsOfScenario.Add("booking_created", booking_Created);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create booking with start date before occupied start date and end date in occupie" +
+                    "d period", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 25
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 26
+        await testRunner.GivenAsync(string.Format("the fully occupied period from day \"{0}\" to day \"{1}\"", occupied_Start_Date, occupied_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 27
+        await testRunner.WhenAsync(string.Format("a user attempts to book the room for the period from \"{0}\" to \"{1}\"", booking_Start_Date, booking_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 28
+        await testRunner.ThenAsync(string.Format("the booking status should be \"{0}\"", booking_Created), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Create booking with start date in occupied period and end date outside occupied e" +
+            "nd period")]
+        [Xunit.TraitAttribute("FeatureTitle", "Create Booking")]
+        [Xunit.TraitAttribute("Description", "Create booking with start date in occupied period and end date outside occupied e" +
+            "nd period")]
+        [Xunit.InlineDataAttribute("2024-12-10", "2024-12-14", "2024-12-11", "2024-12-20", "false", new string[0])]
+        public async System.Threading.Tasks.Task CreateBookingWithStartDateInOccupiedPeriodAndEndDateOutsideOccupiedEndPeriod(string occupied_Start_Date, string occupied_End_Date, string booking_Start_Date, string booking_End_Date, string booking_Created, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("occupied_start_date", occupied_Start_Date);
+            argumentsOfScenario.Add("occupied_end_date", occupied_End_Date);
+            argumentsOfScenario.Add("booking_start_date", booking_Start_Date);
+            argumentsOfScenario.Add("booking_end_date", booking_End_Date);
+            argumentsOfScenario.Add("booking_created", booking_Created);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create booking with start date in occupied period and end date outside occupied e" +
+                    "nd period", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 35
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 36
+        await testRunner.GivenAsync(string.Format("the fully occupied period from day \"{0}\" to day \"{1}\"", occupied_Start_Date, occupied_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 37
+        await testRunner.WhenAsync(string.Format("a user attempts to book the room for the period from \"{0}\" to \"{1}\"", booking_Start_Date, booking_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 38
+        await testRunner.ThenAsync(string.Format("the booking status should be \"{0}\"", booking_Created), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Create invalid booking where start date is after end date")]
+        [Xunit.TraitAttribute("FeatureTitle", "Create Booking")]
+        [Xunit.TraitAttribute("Description", "Create invalid booking where start date is after end date")]
+        [Xunit.InlineDataAttribute("2024-12-01", "2024-12-14", "2025-12-10", "2024-12-14", "The start date cannot be in the past or later than the end date.", new string[0])]
+        [Xunit.InlineDataAttribute("2024-12-01", "2024-12-14", "2023-12-10", "2024-12-14", "The start date cannot be in the past or later than the end date.", new string[0])]
+        public async System.Threading.Tasks.Task CreateInvalidBookingWhereStartDateIsAfterEndDate(string occupied_Start_Date, string occupied_End_Date, string booking_Start_Date, string booking_End_Date, string error_Message, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("occupied_start_date", occupied_Start_Date);
+            argumentsOfScenario.Add("occupied_end_date", occupied_End_Date);
+            argumentsOfScenario.Add("booking_start_date", booking_Start_Date);
+            argumentsOfScenario.Add("booking_end_date", booking_End_Date);
+            argumentsOfScenario.Add("error_message", error_Message);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create invalid booking where start date is after end date", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 45
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 46
+        await testRunner.GivenAsync(string.Format("the fully occupied period from day \"{0}\" to day \"{1}\"", occupied_Start_Date, occupied_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 47
+        await testRunner.WhenAsync(string.Format("a user attempts to book the room for the period from \"{0}\" to \"{1}\"", booking_Start_Date, booking_End_Date), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 48
+        await testRunner.ThenAsync(string.Format("error message should be \"{0}\"", error_Message), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

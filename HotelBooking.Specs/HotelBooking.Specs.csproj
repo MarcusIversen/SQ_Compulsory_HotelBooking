@@ -26,4 +26,12 @@
       <ProjectReference Include="..\HotelBooking.Core\HotelBooking.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Features\FindAvailableRoomsFeature\FindAvailableRooms.feature" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckBuild Remove="Features\FindAvailableRoomsFeature\FindAvailableRooms.feature.cs" />
+    </ItemGroup>
+
 </Project>

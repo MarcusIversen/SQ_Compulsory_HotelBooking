@@ -5,21 +5,21 @@ using Xunit;
 namespace HotelBooking.Specs.Steps;
 
 [Binding]
-public class CreateBookingStep
+public class CreateBookingThrowsExceptionStep
 {
     private IBookingManager bookingManager;
     private Mock<IRepository<Booking>> mockBookingRepository;
     private Mock<IRepository<Room>> mockRoomRepository;
-    private bool bookingResult;
-
-    public CreateBookingStep()
+    
+    private ArgumentException _exceptionObject;
+    
+    public CreateBookingThrowsExceptionStep()
     {
         mockBookingRepository = new();
         mockRoomRepository = new();
     }
-
-
-    [Given(@"the fully occupied period from day ""(.*)"" to day ""(.*)""")]
+    
+    [Given(@"the occupied period from day ""(.*)"" to day ""(.*)""")]
     public void GivenAHotelRoomIsAvailableForThePeriodFromTo(string roomAvailableStartDate, string roomAvailableEndDate)
     {
         // Arrange the booking with available room period
@@ -36,7 +36,7 @@ public class CreateBookingStep
         bookingManager = new BookingManager(mockBookingRepository.Object, mockRoomRepository.Object);
     }
 
-    [When(@"a user attempts to book the room for the period from ""(.*)"" to ""(.*)""")]
+    [When(@"a user attempts to book a room for the period from ""(.*)"" to ""(.*)""")]
     public void WhenAUserAttemptsToBookTheRoomForThePeriodFromTo(string bookingStartDate, string bookingEndDate)
     {
         // Act: try to create a booking for the specified period
@@ -46,15 +46,15 @@ public class CreateBookingStep
             StartDate = DateTime.Parse(bookingStartDate),
             EndDate = DateTime.Parse(bookingEndDate),
         };
+        
+        _exceptionObject = Assert.Throws<ArgumentException>(() => bookingManager.CreateBooking(bookingAttempt));
 
-        bookingResult = bookingManager.CreateBooking(bookingAttempt);
     }
 
-    [Then(@"the booking status should be ""(.*)""")]
-    public void ThenTheBookingStatusShouldBe(string expectedStatus)
+    [Then(@"error message should be ""(.*)""")]
+    public void ThenAnErrorMessageAppears(string expectedErrorMessage)
     {
-        var expectedResult = bool.Parse(expectedStatus);
-        Assert.Equal(expectedResult, bookingResult);
+        // Assert
+        Assert.Equal(expectedErrorMessage, _exceptionObject.Message);
     }
-    
 }
